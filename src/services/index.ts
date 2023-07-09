@@ -1,13 +1,17 @@
+// Services
+import Api from './api';
+import Mount from './mount';
+import ModEventsEmitter, { EventManager } from './events';
+
+// Crossmark Typings
+import { COMMANDS } from '@typings/extension';
 import {
   SignInputOpts,
   SignInTransaction,
 } from '@typings/crossmark/models/sign';
-import type { Transaction } from 'xrpl';
 
-import { CleanExtMessage, COMMANDS } from '@typings/extension';
-import Api from './api';
-import ModEventsEmitter, { EventManager } from './events';
-import Mount from './mount';
+// Xrpl Typings
+import type { Transaction } from 'xrpl';
 
 class Sdk extends ModEventsEmitter {
   mount: Mount;
@@ -15,41 +19,56 @@ class Sdk extends ModEventsEmitter {
   events: EventManager;
   constructor() {
     super();
+    // Mount crossmark window object if exists
     this.mount = new Mount();
+
+    // Mount api service which is a clone of crossmark
+    // which is mounted to the window object
     this.api = new Api();
+
+    // Mount the event manager service
+    // This is responsible for collectign and passing events to the parent class
     this.events = new EventManager(this);
   }
 
+  // Determine if crossmark is connected
   isConnected = () =>
     this.api.awaitRequest({
       command: COMMANDS.IS_CONNECTED,
     });
 
+  // Determine if crossmark is actively locked
   isLocked = () =>
     this.api.awaitRequest({
       command: COMMANDS.IS_LOCKED,
     });
 
+  // Determine if an instance of crossmark is open
   isOpen = () =>
     this.api.awaitRequest({
       command: COMMANDS.OPEN,
     });
 
+  // Determine the current version of crossmark
   version = () =>
     this.api.awaitRequest({
       command: COMMANDS.VERSION,
     });
 
+  // Get the address of the wallet that is actively connected
   getAddress = () =>
     this.api.awaitRequest({
       command: COMMANDS.ADDRESS,
     });
 
+  // Get the network of the active connection
   getNetwork = () =>
     this.api.awaitRequest({
       command: COMMANDS.NETWORK,
     });
 
+  // Attempt to signin to crossmark, await response
+  // Successful response will return a wallet address
   awaitSignIn = ({ request }: { request: SignInTransaction }) =>
     this.api.awaitRequest({
       command: COMMANDS.SIGN,
@@ -58,6 +77,8 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to signin to crossmark, passed back request id
+  // Listen for response emitted event
   signIn = ({ request }: { request: SignInTransaction }) =>
     this.api.request({
       command: COMMANDS.SIGN,
@@ -66,6 +87,8 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to sign a payload, passed back request id
+  // Listen for response emitted event
   sign = ({
     payload,
     opts,
@@ -81,6 +104,8 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to sign and submit a payload, passed back request id
+  // Listen for response emitted event
   signAndSubmit = ({
     payload,
     opts,
@@ -96,6 +121,8 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to submit and already signed txBlob, passed back request id
+  // Listen for response emitted event
   submit = ({ txblob, opts }: { txblob: string; opts: SignInputOpts }) =>
     this.api.request({
       command: COMMANDS.SUBMIT,
@@ -105,6 +132,7 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to sign a payload, await response
   awaitSign = ({
     payload,
     opts,
@@ -120,6 +148,7 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to sign and submit a payload, await response
   awaitSignAndSubmit = ({
     payload,
     opts,
@@ -135,6 +164,7 @@ class Sdk extends ModEventsEmitter {
       },
     });
 
+  // Attempt to submit and already signed txBlob, await response
   awaitSubmit = ({ txblob, opts }: { txblob: string; opts: SignInputOpts }) =>
     this.api.awaitRequest({
       command: COMMANDS.SUBMIT,
