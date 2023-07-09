@@ -1,5 +1,3 @@
-class Sdk {
-  constructor() {}
-}
+import Sdk from './services';
 
 export default new Sdk();
