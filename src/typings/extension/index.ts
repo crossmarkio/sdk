@@ -18,7 +18,11 @@ export enum COMMANDS {
   IS_LOCKED = 'isLocked',
   OPEN = 'open',
   SIGN = 'sign',
+  SIGNANDSUBMIT = 'sign-and-submit',
+  SUBMIT = 'submit',
   MANAGER = 'manager',
+  ADDRESS = 'address',
+  NETWORK = 'network',
 }
 
 export enum EVENTS {

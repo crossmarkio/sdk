@@ -99,7 +99,7 @@ class Api extends ModEventsEmitter {
     return response;
   };
 
-  public request = async (request: ExtRequest) => {
+  public awaitRequest = async (request: ExtRequest) => {
     try {
       let res: any = (await this.#fire({
         type: TYPES.REQUEST,
@@ -107,6 +107,20 @@ class Api extends ModEventsEmitter {
         ...request,
       })) as UniqueExtRequest;
       return res;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  public request = (request: ExtRequest) => {
+    try {
+      let id = uuid();
+      this.#fire({
+        type: TYPES.REQUEST,
+        id,
+        ...request,
+      } as UniqueExtRequest);
+      return id;
     } catch (e) {
       throw e;
     }

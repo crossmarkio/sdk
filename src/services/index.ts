@@ -40,17 +40,90 @@ class Sdk extends ModEventsEmitter {
       command: COMMANDS.VERSION,
     });
 
-  sign = async ({
+  getAddress = async () =>
+    await this.api.request({
+      command: COMMANDS.ADDRESS,
+    });
+
+  getNetwork = async () =>
+    await this.api.request({
+      command: COMMANDS.NETWORK,
+    });
+
+  sign = ({
     payload,
     opts,
   }: {
     payload: SignInTransaction | Transaction;
     opts: SignInputOpts;
   }) =>
-    await this.api.request({
-      command: COMMANDS.VERSION,
+    this.api.request({
+      command: COMMANDS.SIGN,
       data: {
         payload,
+        opts,
+      },
+    });
+
+  signAndSubmit = ({
+    payload,
+    opts,
+  }: {
+    payload: SignInTransaction | Transaction;
+    opts: SignInputOpts;
+  }) =>
+    this.api.request({
+      command: COMMANDS.SIGNANDSUBMIT,
+      data: {
+        payload,
+        opts,
+      },
+    });
+
+  submit = ({ txblob, opts }: { txblob: string; opts: SignInputOpts }) =>
+    this.api.request({
+      command: COMMANDS.SUBMIT,
+      data: {
+        txblob,
+        opts,
+      },
+    });
+
+  awaitSign = ({
+    payload,
+    opts,
+  }: {
+    payload: SignInTransaction | Transaction;
+    opts: SignInputOpts;
+  }) =>
+    this.api.awaitRequest({
+      command: COMMANDS.SIGN,
+      data: {
+        payload,
+        opts,
+      },
+    });
+
+  awaitSignAndSubmit = ({
+    payload,
+    opts,
+  }: {
+    payload: SignInTransaction | Transaction;
+    opts: SignInputOpts;
+  }) =>
+    this.api.awaitRequest({
+      command: COMMANDS.SIGNANDSUBMIT,
+      data: {
+        payload,
+        opts,
+      },
+    });
+
+  awaitSubmit = ({ txblob, opts }: { txblob: string; opts: SignInputOpts }) =>
+    this.api.awaitRequest({
+      command: COMMANDS.SUBMIT,
+      data: {
+        txblob,
         opts,
       },
     });
