@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 import { ExtMessage, COMMANDS, TYPES, EVENTS } from '@typings/extension';
 
-import ModEventsEmitter from './events';
+import EventEmitter from './events';
 import { GeneralResponse } from '@typings/crossmark/models/common/response';
 
 interface ActiveRequest {
@@ -22,7 +22,7 @@ interface ExtRequest {
   data?: any;
 }
 
-class Api extends ModEventsEmitter {
+class Api extends EventEmitter {
   active = new Map<string, ActiveRequest>();
   uuid: string;
   connected: boolean;

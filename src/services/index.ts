@@ -1,7 +1,7 @@
 // Services
 import Api from './api';
 import Mount from './mount';
-import ModEventsEmitter, { EventManager } from './events';
+import EventEmitter, { EventManager } from './events';
 
 // Crossmark Typings
 import { COMMANDS } from '@typings/extension';
@@ -13,7 +13,7 @@ import {
 // Xrpl Typings
 import type { Transaction } from 'xrpl';
 
-class Sdk extends ModEventsEmitter {
+class Sdk extends EventEmitter {
   mount: Mount;
   api: Api;
   events: EventManager;

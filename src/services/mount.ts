@@ -1,8 +1,8 @@
 import type { crossmark } from '@typings/crossmark';
 import { sleep } from '@utils/sleep';
-import ModEventsEmitter from './events';
+import EventEmitter from './events';
 
-class Mount extends ModEventsEmitter {
+class Mount extends EventEmitter {
   crossmark: crossmark | undefined = undefined;
   isMounted = false;
   constructor() {

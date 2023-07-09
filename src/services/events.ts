@@ -9,7 +9,7 @@ import Mount from './mount';
 import Api from './api';
 
 // events
-declare interface ModEventsEmitter {
+declare interface xEventsEmitter {
   on(event: EVENTS.PING, listener: () => void): this;
   on(event: EVENTS.CLOSE, listener: () => void): this;
   on(event: EVENTS.OPEN, listener: () => void): this;
@@ -23,13 +23,13 @@ declare interface ModEventsEmitter {
   on(event: string, listener: Function): this;
 }
 
-class ModEventsEmitter extends EventEmitter {
+class xEventsEmitter extends EventEmitter {
   constructor() {
     super();
   }
 }
 
-export class EventManager extends ModEventsEmitter {
+export class EventManager extends xEventsEmitter {
   sdk: Sdk;
   api: Api;
   mount: Mount;
@@ -66,4 +66,4 @@ export class EventManager extends ModEventsEmitter {
   }
 }
 
-export default ModEventsEmitter;
+export default xEventsEmitter;
