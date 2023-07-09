@@ -4,7 +4,7 @@ import {
 } from '@typings/crossmark/models/sign';
 import type { Transaction } from 'xrpl';
 
-import { COMMANDS } from '@typings/extension';
+import { CleanExtMessage, COMMANDS } from '@typings/extension';
 import Api from './api';
 import ModEventsEmitter, { EventManager } from './events';
 import Mount from './mount';
@@ -20,34 +20,50 @@ class Sdk extends ModEventsEmitter {
     this.events = new EventManager(this);
   }
 
-  isConnected = async () =>
-    await this.api.request({
+  isConnected = () =>
+    this.api.awaitRequest({
       command: COMMANDS.IS_CONNECTED,
     });
 
-  isLocked = async () =>
-    await this.api.request({
+  isLocked = () =>
+    this.api.awaitRequest({
       command: COMMANDS.IS_LOCKED,
     });
 
-  isOpen = async () =>
-    await this.api.request({
+  isOpen = () =>
+    this.api.awaitRequest({
       command: COMMANDS.OPEN,
     });
 
-  version = async () =>
-    await this.api.request({
+  version = () =>
+    this.api.awaitRequest({
       command: COMMANDS.VERSION,
     });
 
-  getAddress = async () =>
-    await this.api.request({
+  getAddress = () =>
+    this.api.awaitRequest({
       command: COMMANDS.ADDRESS,
     });
 
-  getNetwork = async () =>
-    await this.api.request({
+  getNetwork = () =>
+    this.api.awaitRequest({
       command: COMMANDS.NETWORK,
+    });
+
+  awaitSignIn = ({ request }: { request: SignInTransaction }) =>
+    this.api.awaitRequest({
+      command: COMMANDS.SIGN,
+      data: {
+        payload: request,
+      },
+    });
+
+  signIn = ({ request }: { request: SignInTransaction }) =>
+    this.api.request({
+      command: COMMANDS.SIGN,
+      data: {
+        payload: request,
+      },
     });
 
   sign = ({

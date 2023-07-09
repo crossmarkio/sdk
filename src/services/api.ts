@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { ExtMessage, COMMANDS, TYPES, EVENTS } from '@typings/extension';
 
 import ModEventsEmitter from './events';
+import { GeneralResponse } from '@typings/crossmark/models/common/response';
 
 interface ActiveRequest {
   resolve: (value: any) => void;
@@ -106,7 +107,7 @@ class Api extends ModEventsEmitter {
         id: uuid(),
         ...request,
       })) as UniqueExtRequest;
-      return res;
+      return res as GeneralResponse;
     } catch (e) {
       throw e;
     }
