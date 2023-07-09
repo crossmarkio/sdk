@@ -1,7 +1,7 @@
 import type {
   IsConnectedInput,
   IsConnectedOutput,
-} from '../models/isConnected1';
+} from '../models/isConnected';
 
 export type IsConnectedMethod = (
   input: IsConnectedInput
