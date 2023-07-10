@@ -1,6 +1,9 @@
 // Services
 import Api from './api';
 import Mount from './mount';
+import Browser from './browser';
+import Env from './env';
+
 import EventEmitter, { EventManager } from './events';
 
 // Crossmark Typings
@@ -16,9 +19,17 @@ import type { Transaction } from 'xrpl';
 class Sdk extends EventEmitter {
   mount: Mount;
   api: Api;
+
+  browser: typeof Browser;
+  env: typeof Env;
+
   events: EventManager;
   constructor() {
     super();
+
+    this.browser = Browser;
+    this.env = Env;
+
     // Mount crossmark window object if exists
     this.mount = new Mount();
 
