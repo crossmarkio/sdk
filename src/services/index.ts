@@ -69,33 +69,27 @@ class Sdk extends EventEmitter {
 
   // Attempt to signin to crossmark, await response
   // Successful response will return a wallet address
-  awaitSignIn = ({ request }: { request: SignInTransaction }) =>
+  awaitSignIn = () =>
     this.api.awaitRequest({
       command: COMMANDS.SIGN,
       data: {
-        payload: request,
+        payload: { TransactionType: 'SignIn' },
       },
     });
 
   // Attempt to signin to crossmark, passed back request id
   // Listen for response emitted event
-  signIn = ({ request }: { request: SignInTransaction }) =>
+  signIn = () =>
     this.api.request({
       command: COMMANDS.SIGN,
       data: {
-        payload: request,
+        payload: { TransactionType: 'SignIn' },
       },
     });
 
   // Attempt to sign a payload, passed back request id
   // Listen for response emitted event
-  sign = ({
-    payload,
-    opts,
-  }: {
-    payload: SignInTransaction | Transaction;
-    opts: SignInputOpts;
-  }) =>
+  sign = (payload: SignInTransaction | Transaction, opts?: SignInputOpts) =>
     this.api.request({
       command: COMMANDS.SIGN,
       data: {
@@ -106,13 +100,10 @@ class Sdk extends EventEmitter {
 
   // Attempt to sign and submit a payload, passed back request id
   // Listen for response emitted event
-  signAndSubmit = ({
-    payload,
-    opts,
-  }: {
-    payload: SignInTransaction | Transaction;
-    opts: SignInputOpts;
-  }) =>
+  signAndSubmit = (
+    payload: SignInTransaction | Transaction,
+    opts?: SignInputOpts
+  ) =>
     this.api.request({
       command: COMMANDS.SIGNANDSUBMIT,
       data: {
@@ -123,7 +114,7 @@ class Sdk extends EventEmitter {
 
   // Attempt to submit and already signed txBlob, passed back request id
   // Listen for response emitted event
-  submit = ({ txblob, opts }: { txblob: string; opts: SignInputOpts }) =>
+  submit = (txblob: string, opts?: SignInputOpts) =>
     this.api.request({
       command: COMMANDS.SUBMIT,
       data: {
@@ -133,13 +124,10 @@ class Sdk extends EventEmitter {
     });
 
   // Attempt to sign a payload, await response
-  awaitSign = ({
-    payload,
-    opts,
-  }: {
-    payload: SignInTransaction | Transaction;
-    opts: SignInputOpts;
-  }) =>
+  awaitSign = (
+    payload: SignInTransaction | Transaction,
+    opts?: SignInputOpts
+  ) =>
     this.api.awaitRequest({
       command: COMMANDS.SIGN,
       data: {
@@ -149,13 +137,10 @@ class Sdk extends EventEmitter {
     });
 
   // Attempt to sign and submit a payload, await response
-  awaitSignAndSubmit = ({
-    payload,
-    opts,
-  }: {
-    payload: SignInTransaction | Transaction;
-    opts: SignInputOpts;
-  }) =>
+  awaitSignAndSubmit = (
+    payload: SignInTransaction | Transaction,
+    opts?: SignInputOpts
+  ) =>
     this.api.awaitRequest({
       command: COMMANDS.SIGNANDSUBMIT,
       data: {
@@ -165,7 +150,7 @@ class Sdk extends EventEmitter {
     });
 
   // Attempt to submit and already signed txBlob, await response
-  awaitSubmit = ({ txblob, opts }: { txblob: string; opts: SignInputOpts }) =>
+  awaitSubmit = (txblob: string, opts?: SignInputOpts) =>
     this.api.awaitRequest({
       command: COMMANDS.SUBMIT,
       data: {
