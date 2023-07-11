@@ -1,7 +1,13 @@
-import type { GeneralOutput } from './common/output';
+import { BaseRequest, BaseResponse } from './common/base';
+import { COMMANDS } from '@typings/extension';
 
-export type VersionInput = void;
+export interface VersionRequest extends BaseRequest {
+  command: COMMANDS.VERSION;
+}
 
-export interface VersionOutput extends GeneralOutput {
-  misc?: unknown;
+export interface VersionResponse extends BaseResponse {
+  request: VersionRequest;
+  response: {
+    version: string;
+  };
 }

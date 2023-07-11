@@ -1,7 +1,13 @@
-import type { GeneralOutput } from "./common/output";
+import { BaseRequest, BaseResponse } from './common/base';
+import { COMMANDS } from '@typings/extension';
 
-export type IsLockedInput = void;
+export interface IsLockedRequest extends BaseRequest {
+  command: COMMANDS.IS_LOCKED;
+}
 
-export interface IsLockedOutput extends GeneralOutput {
-  misc?: unknown;
+export interface IsLockedResponse extends BaseResponse {
+  request: IsLockedRequest;
+  response: {
+    isLocked: boolean;
+  };
 }

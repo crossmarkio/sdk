@@ -48,29 +48,3 @@ export interface CatchAllEvent {
   user?: BasicUser;
   network?: BasicNetwork;
 }
-
-export enum TARGETS {
-  CONTENT = 'content',
-  BG = 'bg',
-  POP = 'pop',
-}
-
-export interface ExtMessage {
-  id: string;
-  type: TYPES;
-  target: TARGETS;
-  event?: EVENTS;
-  command?: COMMANDS;
-  payload?: any;
-  data?: any;
-}
-
-export interface CleanExtMessage {
-  id: string;
-  type: TYPES;
-  target?: TARGETS;
-  event?: EVENTS;
-  command?: COMMANDS;
-  payload?: any;
-  data?: { isError?: boolean; isRejected?: boolean; address?: string };
-}

@@ -1,7 +1,13 @@
-import type { GeneralOutput } from './common/output';
+import { BaseRequest, BaseResponse } from './common/base';
+import { COMMANDS } from '@typings/extension';
 
-export type IsConnectedInput = void;
+export interface IsConnectedRequest extends BaseRequest {
+  command: COMMANDS.IS_CONNECTED;
+}
 
-export interface IsConnectedOutput extends GeneralOutput {
-  misc?: unknown;
+export interface IsConnectedResponse extends BaseResponse {
+  request: IsConnectedRequest;
+  response: {
+    isConnected: boolean;
+  };
 }

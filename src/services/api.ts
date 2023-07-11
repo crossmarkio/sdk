@@ -1,25 +1,16 @@
 import { v4 as uuid } from 'uuid';
 
-import { ExtMessage, COMMANDS, TYPES, EVENTS } from '@typings/extension';
+import { TYPES, EVENTS } from '@typings/extension';
 
 import EventEmitter from './events';
-import { GeneralResponse } from '@typings/crossmark/models/common/response';
+import { Request, Response } from '@typings/crossmark/models';
+import { EventMessage } from '@typings/crossmark/events';
+import { NetworkEvent } from '@typings/crossmark/events/network';
+import { UserEvent } from '@typings/crossmark/events/user';
 
 interface ActiveRequest {
   resolve: (value: any) => void;
   reject: (value: any) => void;
-}
-
-interface UniqueExtRequest {
-  type: TYPES.REQUEST;
-  command: COMMANDS;
-  id: string;
-  data?: any;
-}
-
-interface ExtRequest {
-  command: COMMANDS;
-  data?: any;
 }
 
 class Api extends EventEmitter {
@@ -69,58 +60,58 @@ class Api extends EventEmitter {
     }
   };
 
-  #handleEvent = (data: ExtMessage) => {
-    if (data.event === EVENTS.PING) this.emit(EVENTS.PING);
+  #handleEvent = (e: EventMessage) => {
+    if (e.event === EVENTS.PING) this.emit(EVENTS.PING);
 
-    if (data.event === EVENTS.CLOSE) this.emit(EVENTS.CLOSE);
-    if (data.event === EVENTS.OPEN) this.emit(EVENTS.OPEN);
-    if (data.event === EVENTS.SIGNOUT) this.emit(EVENTS.SIGNOUT);
+    if (e.event === EVENTS.CLOSE) this.emit(EVENTS.CLOSE);
+    if (e.event === EVENTS.OPEN) this.emit(EVENTS.OPEN);
+    if (e.event === EVENTS.SIGNOUT) this.emit(EVENTS.SIGNOUT);
 
-    if (data.event === EVENTS.USER_CHANGE)
-      this.emit(EVENTS.USER_CHANGE, data.data);
+    if (e.event === EVENTS.USER_CHANGE)
+      this.emit(EVENTS.USER_CHANGE, (e as UserEvent).data);
 
-    if (data.event === EVENTS.NETWORK_CHANGE)
-      this.emit(EVENTS.NETWORK_CHANGE, data.data);
+    if (e.event === EVENTS.NETWORK_CHANGE)
+      this.emit(EVENTS.NETWORK_CHANGE, (e as NetworkEvent).data);
   };
 
-  #fire = async (data: UniqueExtRequest) => {
+  #fire = async (request: Request) => {
     // Await response from operator, holding function response
     let response = await new Promise((resolve, reject) => {
-      this.active.set(data.id, {
+      this.active.set(request.id, {
         resolve: resolve,
         reject: reject,
       });
       //document.dispatchEvent(event);
-      window.postMessage(data);
+      window.postMessage(request);
     });
 
     // Remove resolved object from active requests
-    this.active.delete(data.id);
+    this.active.delete(request.id);
 
     return response;
   };
 
-  public awaitRequest = async (request: ExtRequest) => {
+  public awaitRequest = async (request: Partial<Request>) => {
     try {
-      let res: any = (await this.#fire({
+      let res: any = await this.#fire({
         type: TYPES.REQUEST,
         id: uuid(),
         ...request,
-      })) as UniqueExtRequest;
-      return res as GeneralResponse;
+      } as Request);
+      return res as Response;
     } catch (e) {
       throw e;
     }
   };
 
-  public request = (request: ExtRequest) => {
+  public request = (request: Partial<Request>) => {
     try {
       let id = uuid();
       this.#fire({
         type: TYPES.REQUEST,
         id,
         ...request,
-      } as UniqueExtRequest);
+      } as Request);
       return id;
     } catch (e) {
       throw e;
