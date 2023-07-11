@@ -1,9 +1,9 @@
-import type CrossmarkMethods from "./methods";
+import Api from '@services/api';
 
 declare global {
   interface Window {
-    crossmark: crossmark;
+    crossmark: Api;
   }
 }
 
-export type crossmark = CrossmarkMethods;
+export type crossmark = Api;
