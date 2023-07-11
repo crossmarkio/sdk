@@ -38,3 +38,28 @@ export type Response =
   | VerifyResponse
   | SignAndSubmitResponse
   | SubmitResponse;
+
+export {
+  IsConnectedRequest,
+  IsLockedRequest,
+  SignInRequest,
+  IsOpenRequest,
+  SignRequest,
+  VersionRequest,
+  NetworkRequest,
+  AddressRequest,
+  VerifyRequest,
+  SignAndSubmitRequest,
+  SubmitRequest,
+  IsConnectedResponse,
+  IsLockedResponse,
+  SignInResponse,
+  IsOpenResponse,
+  SignResponse,
+  VersionResponse,
+  AddressResponse,
+  NetworkResponse,
+  VerifyResponse,
+  SignAndSubmitResponse,
+  SubmitResponse,
+};

@@ -10,16 +10,18 @@ import EventEmitter, { EventManager } from './events';
 import { COMMANDS } from '@typings/extension';
 import { SignOpts } from '@typings/crossmark/models/common/base';
 import { AllTransactionRequest } from '@typings/crossmark/models/common/tx';
-import { SignInResponse } from '@typings/crossmark/models/signIn';
-import { VerifyResponse } from '@typings/crossmark/models/verify';
-import { SignResponse } from '@typings/crossmark/models/sign';
-import { SubmitResponse } from '@typings/crossmark/models/submit';
-import { NetworkResponse } from '@typings/crossmark/models/network';
-import { AddressResponse } from '@typings/crossmark/models/address';
-import { VersionResponse } from '@typings/crossmark/models/version';
-import { IsOpenResponse } from '@typings/crossmark/models/isOpen';
-import { IsLockedResponse } from '@typings/crossmark/models/isLocked';
-import { IsConnectedResponse } from '@typings/crossmark/models/isConnected';
+import {
+  AddressResponse,
+  IsConnectedResponse,
+  IsLockedResponse,
+  IsOpenResponse,
+  NetworkResponse,
+  SignInResponse,
+  SignResponse,
+  SubmitResponse,
+  VerifyResponse,
+  VersionResponse,
+} from '@typings/crossmark/models';
 
 class Sdk extends EventEmitter {
   mount: Mount;
