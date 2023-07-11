@@ -80,21 +80,43 @@ class Sdk extends EventEmitter {
 
   // Attempt to signin to crossmark, passed back request id
   // Listen for response emitted event
-  signIn = () =>
+  signIn = (hex?: string) =>
     this.api.request({
       command: COMMANDS.SIGN,
       data: {
         payload: { TransactionType: 'SignIn' },
+        hex,
       },
     });
 
   // Attempt to signin to crossmark, await response
   // Successful response will return a wallet address
-  signInAndWait = () =>
+  signInAndWait = (hex?: string) =>
     this.api.awaitRequest({
       command: COMMANDS.SIGN,
       data: {
         payload: { TransactionType: 'SignIn' },
+        hex,
+      },
+    });
+
+  // Attempt to verify wallet ownership, passed back request id
+  // Successful response will return a wallet address
+  verify = (hex: string) =>
+    this.api.request({
+      command: COMMANDS.VERIFY,
+      data: {
+        hex,
+      },
+    });
+
+  // Attempt to verify wallet ownership, await response
+  // Successful response will return a wallet address
+  verifyAndWait = (hex: string) =>
+    this.api.request({
+      command: COMMANDS.VERIFY,
+      data: {
+        hex,
       },
     });
 

@@ -63,7 +63,7 @@ class Api extends EventEmitter {
       'response' in event.data &&
       resp &&
       resp.type === TYPES.RESPONSE &&
-      this.active[resp?.id]
+      this.active.get(resp.id)
     ) {
       return this.active.get(resp.id)?.resolve(event.data);
     }
@@ -95,7 +95,7 @@ class Api extends EventEmitter {
     });
 
     // Remove resolved object from active requests
-    delete this.active[data.id];
+    this.active.delete(data.id);
 
     return response;
   };

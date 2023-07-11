@@ -23,6 +23,7 @@ export enum COMMANDS {
   MANAGER = 'manager',
   ADDRESS = 'address',
   NETWORK = 'network',
+  VERIFY = 'verify',
 }
 
 export enum EVENTS {
