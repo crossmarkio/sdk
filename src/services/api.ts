@@ -9,8 +9,8 @@ import { NetworkEvent } from '@typings/crossmark/events/network';
 import { UserEvent } from '@typings/crossmark/events/user';
 
 interface ActiveRequest {
-  resolve: (value: any) => void;
-  reject: (value: any) => void;
+  resolve: (value: unknown) => void;
+  reject: (value: unknown) => void;
 }
 
 class Api extends EventEmitter {
@@ -19,7 +19,6 @@ class Api extends EventEmitter {
   connected: boolean;
   target: string | undefined;
   timestamp: number | undefined;
-  activeRequests: any;
 
   constructor() {
     super();
@@ -31,7 +30,7 @@ class Api extends EventEmitter {
     window.addEventListener('message', this.#handleMsg);
   }
 
-  #handleMsg = (event: MessageEvent<any>) => {
+  #handleMsg = (event: MessageEvent) => {
     // We only accept messages from ourselves
     if (
       event.source !== window ||
@@ -93,7 +92,7 @@ class Api extends EventEmitter {
 
   public awaitRequest = async (request: Partial<Request>) => {
     try {
-      let res: any = await this.#fire({
+      let res = await this.#fire({
         type: TYPES.REQUEST,
         id: uuid(),
         ...request,

@@ -11,7 +11,7 @@ export const Scheme = {
     let value = target[prop];
     return typeof value === 'function' ? value.bind(target) : value; // (*)
   },
-  set: (target: Sdk, prop: string, val: any) => {
+  set: (target: Sdk, prop: string, val: unknown) => {
     // to intercept property writing
     if (prop.startsWith('_')) {
       throw new Error('Access denied');
