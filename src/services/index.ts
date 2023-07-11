@@ -24,6 +24,7 @@ import {
 } from '@typings/crossmark/models';
 
 class Sdk extends EventEmitter {
+  [x: string]: any;
   mount: Mount;
   api: Api;
 

@@ -1,7 +1,8 @@
+import Sdk from '.';
 import Env from './env';
 
 export const Scheme = {
-  get: (target: { [x: string]: any }, prop: string) => {
+  get: (target: Sdk, prop: string) => {
     if (prop.startsWith('_')) throw new Error('Access denied');
 
     // Catch and throw if trying to use sdk from a mobile device
@@ -10,7 +11,7 @@ export const Scheme = {
     let value = target[prop];
     return typeof value === 'function' ? value.bind(target) : value; // (*)
   },
-  set: (target: { [x: string]: any }, prop: string, val: any) => {
+  set: (target: Sdk, prop: string, val: any) => {
     // to intercept property writing
     if (prop.startsWith('_')) {
       throw new Error('Access denied');
@@ -19,7 +20,7 @@ export const Scheme = {
       return true;
     }
   },
-  deleteProperty: (target: { [x: string]: any }, prop: string) => {
+  deleteProperty: (target: Sdk, prop: string) => {
     // to intercept property deletion
     if (prop.startsWith('_')) {
       throw new Error('Access denied');
@@ -28,7 +29,7 @@ export const Scheme = {
       return true;
     }
   },
-  ownKeys: (target: {}) => {
+  ownKeys: (target: Sdk) => {
     // to intercept property list
     return Object.keys(target).filter((key) => !key.startsWith('_'));
   },
