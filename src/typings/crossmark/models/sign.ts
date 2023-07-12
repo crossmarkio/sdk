@@ -1,4 +1,9 @@
-import { BaseRequest, BaseResponse, SignOpts } from './common/base';
+import {
+  BaseFullResponse,
+  BaseRequest,
+  BaseResponse,
+  SignOpts,
+} from './common/base';
 import { COMMANDS } from '@typings/extension';
 import { AllTransactionRequest } from './common/tx';
 import { Status } from './common/status';
@@ -11,10 +16,16 @@ export interface SignRequest extends BaseRequest {
   };
 }
 
-export interface SignResponse extends BaseResponse {
-  request: SignRequest;
-  response: {
+interface SignDataResponse {
+  data: {
     txBlob: string;
     meta: Status;
   };
+}
+
+export type SignResponse = BaseResponse & SignDataResponse;
+
+export interface SignFullResponse extends BaseFullResponse {
+  request: SignRequest;
+  response: SignResponse;
 }

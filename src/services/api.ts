@@ -14,6 +14,7 @@ interface ActiveRequest {
 }
 
 class Api extends EventEmitter {
+  [x: string]: unknown;
   active = new Map<string, ActiveRequest>();
   uuid: string;
   connected: boolean;
@@ -23,19 +24,24 @@ class Api extends EventEmitter {
   constructor() {
     super();
     this.uuid = uuid();
-    this.target = window.origin;
     this.connected = false;
 
     this.timestamp = Date.now();
-    window.addEventListener('message', this.#handleMsg);
+
+    if (typeof window !== 'undefined') {
+      this.target = window.origin;
+      window.addEventListener('message', this.#handleMsg);
+    }
   }
 
   #handleMsg = (event: MessageEvent) => {
     // We only accept messages from ourselves
+    if (!window) return;
     if (
-      event.source !== window ||
-      !event.source ||
-      event.origin !== window.location.origin
+      window &&
+      (event.source !== window ||
+        !event.source ||
+        event.origin !== window.location.origin)
     )
       return;
 
@@ -81,7 +87,7 @@ class Api extends EventEmitter {
         reject: reject,
       });
       //document.dispatchEvent(event);
-      window.postMessage(request);
+      if (window) window.postMessage(request);
     });
 
     // Remove resolved object from active requests

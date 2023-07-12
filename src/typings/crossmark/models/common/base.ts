@@ -6,6 +6,11 @@ export interface BaseRequest {
 }
 
 export interface BaseResponse {
+  type: TYPES.RESPONSE;
+  id: string;
+}
+
+export interface BaseFullResponse {
   createdAt: number;
   resolvedAt?: number;
 }

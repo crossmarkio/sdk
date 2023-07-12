@@ -12,7 +12,7 @@ class Mount extends EventEmitter {
 
   loop = async () => {
     while (true) {
-      if (window.crossmark) {
+      if (typeof window !== 'undefined' && window.crossmark) {
         this.crossmark = window.crossmark;
         this.isMounted = true;
       }

@@ -1,13 +1,19 @@
-import { BaseRequest, BaseResponse } from './common/base';
+import { BaseFullResponse, BaseRequest, BaseResponse } from './common/base';
 import { COMMANDS } from '@typings/extension';
 
 export interface VersionRequest extends BaseRequest {
   command: COMMANDS.VERSION;
 }
 
-export interface VersionResponse extends BaseResponse {
-  request: VersionRequest;
-  response: {
+interface VersionDataResponse {
+  data: {
     version: string;
   };
+}
+
+export type VersionResponse = BaseResponse & VersionDataResponse;
+
+export interface VersionFullResponse extends BaseFullResponse {
+  request: VersionRequest;
+  response: VersionResponse;
 }

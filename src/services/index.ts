@@ -11,16 +11,16 @@ import { COMMANDS } from '@typings/extension';
 import { SignOpts } from '@typings/crossmark/models/common/base';
 import { AllTransactionRequest } from '@typings/crossmark/models/common/tx';
 import {
-  AddressResponse,
-  IsConnectedResponse,
-  IsLockedResponse,
-  IsOpenResponse,
-  NetworkResponse,
-  SignInResponse,
-  SignResponse,
-  SubmitResponse,
-  VerifyResponse,
-  VersionResponse,
+  AddressFullResponse,
+  IsConnectedFullResponse,
+  IsLockedFullResponse,
+  IsOpenFullResponse,
+  NetworkFullResponse,
+  SignFullResponse,
+  SignInFullResponse,
+  SubmitFullResponse,
+  VerifyFullResponse,
+  VersionFullResponse,
 } from '@typings/crossmark/models';
 
 class Sdk extends EventEmitter {
@@ -54,37 +54,37 @@ class Sdk extends EventEmitter {
   isConnected = () =>
     this.api.awaitRequest({
       command: COMMANDS.IS_CONNECTED,
-    }) as Promise<IsConnectedResponse>;
+    }) as Promise<IsConnectedFullResponse>;
 
   // Determine if crossmark is actively locked
   isLocked = () =>
     this.api.awaitRequest({
       command: COMMANDS.IS_LOCKED,
-    }) as Promise<IsLockedResponse>;
+    }) as Promise<IsLockedFullResponse>;
 
   // Determine if an instance of crossmark is open
   isOpen = () =>
     this.api.awaitRequest({
       command: COMMANDS.OPEN,
-    }) as Promise<IsOpenResponse>;
+    }) as Promise<IsOpenFullResponse>;
 
   // Determine the current version of crossmark
   version = () =>
     this.api.awaitRequest({
       command: COMMANDS.VERSION,
-    }) as Promise<VersionResponse>;
+    }) as Promise<VersionFullResponse>;
 
   // Get the address of the wallet that is actively connected
   getAddress = () =>
     this.api.awaitRequest({
       command: COMMANDS.ADDRESS,
-    }) as Promise<AddressResponse>;
+    }) as Promise<AddressFullResponse>;
 
   // Get the network of the active connection
   getNetwork = () =>
     this.api.awaitRequest({
       command: COMMANDS.NETWORK,
-    }) as Promise<NetworkResponse>;
+    }) as Promise<NetworkFullResponse>;
 
   // Attempt to signin to crossmark, passed back request id
   // Listen for response emitted event
@@ -106,7 +106,7 @@ class Sdk extends EventEmitter {
         tx: { TransactionType: 'SignIn' },
         hex,
       },
-    }) as Promise<SignInResponse>;
+    }) as Promise<SignInFullResponse>;
 
   // Attempt to verify wallet ownership, passed back request id
   // Successful response will return a wallet address
@@ -126,7 +126,7 @@ class Sdk extends EventEmitter {
       data: {
         hex,
       },
-    }) as Promise<VerifyResponse>;
+    }) as Promise<VerifyFullResponse>;
 
   // Attempt to sign a payload, passed back request id
   // Listen for response emitted event
@@ -147,28 +147,30 @@ class Sdk extends EventEmitter {
         tx,
         opts,
       },
-    }) as Promise<SignResponse>;
+    }) as Promise<SignFullResponse>;
 
   // Attempt to submit and already signed txBlob, passed back request id
   // Listen for response emitted event
-  submit = (txblob: string, opts?: SignOpts) =>
+  submit = (address: string, txblob: string, opts?: SignOpts) =>
     this.api.request({
       command: COMMANDS.SUBMIT,
       data: {
+        address,
         txblob,
         opts,
       },
     });
 
   // Attempt to submit and already signed txBlob, await response
-  submitAndWait = (txblob: string, opts?: SignOpts) =>
+  submitAndWait = (address: string, txblob: string, opts?: SignOpts) =>
     this.api.awaitRequest({
       command: COMMANDS.SUBMIT,
       data: {
+        address,
         txblob,
         opts,
       },
-    }) as Promise<SubmitResponse>;
+    }) as Promise<SubmitFullResponse>;
 
   // Attempt to sign and submit a payload, passed back request id
   // Listen for response emitted event
@@ -189,7 +191,7 @@ class Sdk extends EventEmitter {
         tx,
         opts,
       },
-    }) as Promise<SignResponse>;
+    }) as Promise<SignFullResponse>;
 }
 
 export default Sdk;

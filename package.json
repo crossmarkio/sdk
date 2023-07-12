@@ -1,6 +1,6 @@
 {
   "name": "sdk",
-  "version": "0.0.6-beta",
+  "version": "0.1.5-beta",
   "repository": "https://github.com/crossmarkio/sdk.git",
   "author": "interc0der <intercoder@whirled.io>",
   "license": "MIT",
