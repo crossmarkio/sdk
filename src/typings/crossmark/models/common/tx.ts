@@ -1,12 +1,12 @@
 import {
   Transaction as AMMTransaction,
   TransactionMetadata as AMMTransactionMetadata,
-} from 'xrpl-amm';
+} from '@crossmarkio/xrpl-amm';
 
 import {
   Transaction as SidechainTransaction,
   TransactionMetadata as SidechainTransactionMetadata,
-} from 'xrpl-sidechain';
+} from '@crossmarkio/xrpl-sidechain';
 
 import {
   Transaction as MainTransaction,

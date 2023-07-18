@@ -16,6 +16,7 @@ import {
   IsLockedFullResponse,
   IsOpenFullResponse,
   NetworkFullResponse,
+  SignAndSubmitFullResponse,
   SignFullResponse,
   SignInFullResponse,
   SubmitFullResponse,
@@ -86,7 +87,7 @@ class Sdk extends EventEmitter {
       command: COMMANDS.NETWORK,
     }) as Promise<NetworkFullResponse>;
 
-  // Attempt to signin to crossmark, passed back request id
+  // Attempt to signin to crossmark, pass back request id
   // Listen for response emitted event
   signIn = (hex?: string) =>
     this.api.request({
@@ -108,7 +109,7 @@ class Sdk extends EventEmitter {
       },
     }) as Promise<SignInFullResponse>;
 
-  // Attempt to verify wallet ownership, passed back request id
+  // Attempt to verify wallet ownership, pass back request id
   // Successful response will return a wallet address
   verify = (hex: string) =>
     this.api.request({
@@ -128,7 +129,7 @@ class Sdk extends EventEmitter {
       },
     }) as Promise<VerifyFullResponse>;
 
-  // Attempt to sign a payload, passed back request id
+  // Attempt to sign a payload, pass back request id
   // Listen for response emitted event
   sign = (tx: AllTransactionRequest, opts?: SignOpts) =>
     this.api.request({
@@ -149,7 +150,7 @@ class Sdk extends EventEmitter {
       },
     }) as Promise<SignFullResponse>;
 
-  // Attempt to submit and already signed txBlob, passed back request id
+  // Attempt to submit an already signed txBlob, pass back request id
   // Listen for response emitted event
   submit = (address: string, txblob: string, opts?: SignOpts) =>
     this.api.request({
@@ -161,7 +162,7 @@ class Sdk extends EventEmitter {
       },
     });
 
-  // Attempt to submit and already signed txBlob, await response
+  // Attempt to submit an already signed txBlob, await response
   submitAndWait = (address: string, txblob: string, opts?: SignOpts) =>
     this.api.awaitRequest({
       command: COMMANDS.SUBMIT,
@@ -172,7 +173,7 @@ class Sdk extends EventEmitter {
       },
     }) as Promise<SubmitFullResponse>;
 
-  // Attempt to sign and submit a payload, passed back request id
+  // Attempt to sign and submit a payload, pass back request id
   // Listen for response emitted event
   signAndSubmit = (tx: AllTransactionRequest, opts?: SignOpts) =>
     this.api.request({
@@ -191,7 +192,7 @@ class Sdk extends EventEmitter {
         tx,
         opts,
       },
-    }) as Promise<SignFullResponse>;
+    }) as Promise<SignAndSubmitFullResponse>;
 }
 
 export default Sdk;

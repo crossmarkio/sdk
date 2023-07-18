@@ -16,7 +16,7 @@ class Mount extends EventEmitter {
         this.crossmark = window.crossmark;
         this.isMounted = true;
       }
-      await sleep(5000);
+      await sleep(500);
     }
   };
 }
