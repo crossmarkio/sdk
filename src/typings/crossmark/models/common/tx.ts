@@ -1,14 +1,17 @@
 import {
+  TxResponse as AMMTransactionResponse,
   Transaction as AMMTransaction,
   TransactionMetadata as AMMTransactionMetadata,
 } from '@crossmarkio/xrpl-amm';
 
 import {
+  TxResponse as SidechainTransactionResponse,
   Transaction as SidechainTransaction,
   TransactionMetadata as SidechainTransactionMetadata,
 } from '@crossmarkio/xrpl-sidechain';
 
 import {
+  TxResponse as MainTransactionResponse,
   Transaction as MainTransaction,
   TransactionMetadata as MainTransactionMetadata,
 } from 'xrpl';
@@ -24,6 +27,6 @@ export type AllTransactionRequest =
   | Partial<MainTransaction>;
 
 export type AllTransactionResponse =
-  | Partial<AMMTransactionMetadata>
-  | Partial<SidechainTransactionMetadata>
-  | Partial<MainTransactionMetadata>;
+  | MainTransactionResponse
+  | SidechainTransactionResponse
+  | AMMTransactionResponse;
