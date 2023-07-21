@@ -36,6 +36,21 @@ import {
   SignAndSubmitResponse,
 } from './signAndSubmit';
 import { SubmitFullResponse, SubmitRequest, SubmitResponse } from './submit';
+import {
+  BulkSignFullResponse,
+  BulkSignRequest,
+  BulkSignResponse,
+} from './bulkSign';
+import {
+  BulkSubmitFullResponse,
+  BulkSubmitRequest,
+  BulkSubmitResponse,
+} from './bulkSubmit';
+import {
+  BulkSignAndSubmitFullResponse,
+  BulkSignAndSubmitRequest,
+  BulkSignAndSubmitResponse,
+} from './bulkSignAndSubmit';
 
 export type Request =
   | IsConnectedRequest
@@ -48,7 +63,10 @@ export type Request =
   | AddressRequest
   | VerifyRequest
   | SignAndSubmitRequest
-  | SubmitRequest;
+  | SubmitRequest
+  | BulkSubmitRequest
+  | BulkSignRequest
+  | BulkSignAndSubmitRequest;
 
 export type Response =
   | IsConnectedFullResponse
@@ -61,7 +79,10 @@ export type Response =
   | NetworkFullResponse
   | VerifyFullResponse
   | SignAndSubmitFullResponse
-  | SubmitFullResponse;
+  | SubmitFullResponse
+  | BulkSignFullResponse
+  | BulkSubmitFullResponse
+  | BulkSignAndSubmitFullResponse;
 
 export {
   IsConnectedRequest,
@@ -97,4 +118,13 @@ export {
   VerifyFullResponse,
   SignAndSubmitFullResponse,
   SubmitFullResponse,
+  BulkSubmitRequest,
+  BulkSignRequest,
+  BulkSignAndSubmitRequest,
+  BulkSubmitFullResponse,
+  BulkSignFullResponse,
+  BulkSignAndSubmitFullResponse,
+  BulkSubmitResponse,
+  BulkSignResponse,
+  BulkSignAndSubmitResponse,
 };

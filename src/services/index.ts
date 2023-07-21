@@ -9,9 +9,15 @@ import EventEmitter, { EventManager } from './events';
 // Crossmark Typings
 import { COMMANDS } from '@typings/extension';
 import { SignOpts } from '@typings/crossmark/models/common/base';
-import { AllTransactionRequest } from '@typings/crossmark/models/common/tx';
+import {
+  AllTransactionRequest,
+  SignTransaction,
+} from '@typings/crossmark/models/common/tx';
 import {
   AddressFullResponse,
+  BulkSignAndSubmitFullResponse,
+  BulkSignFullResponse,
+  BulkSubmitFullResponse,
   IsConnectedFullResponse,
   IsLockedFullResponse,
   IsOpenFullResponse,
@@ -193,6 +199,71 @@ class Sdk extends EventEmitter {
         opts,
       },
     }) as Promise<SignAndSubmitFullResponse>;
+
+  // Attempt to sign a payload, pass back request id
+  // Listen for response emitted event
+  bulkSign = (txns: SignTransaction[], opts?: SignOpts) =>
+    this.api.request({
+      command: COMMANDS.BULK,
+      data: {
+        txns,
+        opts,
+      },
+    });
+
+  // Attempt to sign a payload, await response
+  bulkSignAndWait = (txns: SignTransaction[], opts?: SignOpts) =>
+    this.api.awaitRequest({
+      command: COMMANDS.BULK,
+      data: {
+        txns,
+        opts,
+      },
+    }) as Promise<BulkSignFullResponse>;
+
+  // Attempt to submit an already signed txBlob, pass back request id
+  // Listen for response emitted event
+  bulkSubmit = (address: string, txblobs: string[], opts?: SignOpts) =>
+    this.api.request({
+      command: COMMANDS.BULKSUBMIT,
+      data: {
+        address,
+        txblobs,
+        opts,
+      },
+    });
+
+  // Attempt to submit an already signed txBlob, await response
+  bulkSubmitAndWait = (address: string, txblobs: string[], opts?: SignOpts) =>
+    this.api.awaitRequest({
+      command: COMMANDS.BULKSUBMIT,
+      data: {
+        address,
+        txblobs,
+        opts,
+      },
+    }) as Promise<BulkSubmitFullResponse>;
+
+  // Attempt to sign and submit a payload, pass back request id
+  // Listen for response emitted event
+  bulkSignAndSubmit = (txns: SignTransaction[], opts?: SignOpts) =>
+    this.api.request({
+      command: COMMANDS.BULK,
+      data: {
+        txns,
+        opts,
+      },
+    });
+
+  // Attempt to sign and submit a payload, await response
+  bulkSignAndSubmitAndWait = (txns: SignTransaction[], opts?: SignOpts) =>
+    this.api.awaitRequest({
+      command: COMMANDS.BULK,
+      data: {
+        txns,
+        opts,
+      },
+    }) as Promise<BulkSignAndSubmitFullResponse>;
 }
 
 export default Sdk;

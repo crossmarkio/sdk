@@ -46,8 +46,8 @@ class Api extends EventEmitter {
       return;
 
     if (!event.data) return;
-    let type = 'type' in event.data && event.data.type;
-    let resp = 'response' in event.data && event.data.response;
+    let type = event.data?.type || undefined;
+    let resp = event.data?.response || undefined;
 
     if (type === TYPES.UPDATE) return;
     if (type === TYPES.EVENT && 'type' in event.data)
