@@ -1,6 +1,6 @@
 {
   "name": "@crossmarkio/sdk",
-  "version": "0.2.0-beta",
+  "version": "0.2.1-beta",
   "repository": "https://github.com/crossmarkio/sdk.git",
   "author": "interc0der <intercoder@whirled.io>",
   "license": "MIT",
@@ -49,9 +49,9 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@crossmarkio/xrpl-amm": "^2.7.0-beta.3",
+    "@crossmarkio/xrpl-amm": "^2.9.0-beta.1",
     "@crossmarkio/xrpl-sidechain": "^2.9.0-beta.0",
     "uuid": "^9.0.0",
-    "xrpl": "^2.8.1"
+    "xrpl": "^2.9.1"
   }
 }

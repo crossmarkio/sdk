@@ -204,7 +204,7 @@ class Sdk extends EventEmitter {
   // Listen for response emitted event
   bulkSign = (txns: SignTransaction[], opts?: SignOpts) =>
     this.api.request({
-      command: COMMANDS.BULK,
+      command: COMMANDS.BULKSIGN,
       data: {
         txns,
         opts,
@@ -214,7 +214,7 @@ class Sdk extends EventEmitter {
   // Attempt to sign a payload, await response
   bulkSignAndWait = (txns: SignTransaction[], opts?: SignOpts) =>
     this.api.awaitRequest({
-      command: COMMANDS.BULK,
+      command: COMMANDS.BULKSIGN,
       data: {
         txns,
         opts,
