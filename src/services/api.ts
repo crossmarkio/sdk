@@ -55,6 +55,9 @@ class Api extends EventEmitter {
 
     if (type === 'request') return;
 
+    if ('response' in event.data && resp && resp.type === TYPES.RESPONSE)
+      this.emit(EVENTS.RESPONSE, resp as Response);
+
     if (
       'response' in event.data &&
       resp &&

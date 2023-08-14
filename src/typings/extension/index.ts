@@ -34,6 +34,7 @@ export enum EVENTS {
   CHAIN_CHANGED = 'chainChanged',
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
+  RESPONSE = 'response',
   MESSAGE = 'message',
   POPUP_MODE = 'popup-mode',
   STATE_UPDATE = 'state-update',

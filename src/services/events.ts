@@ -2,6 +2,8 @@ import EventEmitter from 'events';
 
 import { EVENTS, CatchAllEvent } from '@typings/extension';
 
+import { Request, Response } from '@typings/crossmark/models';
+
 import { BasicNetwork } from '@typings/schemas/network';
 import { BasicUser } from '@typings/schemas/user';
 import Sdk from '.';
@@ -15,11 +17,14 @@ declare interface xEventsEmitter {
   on(event: EVENTS.OPEN, listener: () => void): this;
   on(event: EVENTS.SIGNOUT, listener: () => void): this;
   on(event: EVENTS.USER_CHANGE, listener: (user: BasicUser) => void): this;
-  on(event: EVENTS.ALL, listener: (all: CatchAllEvent) => void): this;
   on(
     event: EVENTS.NETWORK_CHANGE,
     listener: (network: BasicNetwork) => void
   ): this;
+
+  on(event: EVENTS.RESPONSE, listener: (resp: Response) => void): this;
+
+  on(event: EVENTS.ALL, listener: (all: CatchAllEvent) => void): this;
   on(event: string, listener: Function): this;
 }
 
@@ -41,6 +46,11 @@ export class EventManager extends xEventsEmitter {
     this.mount = this.sdk.mount;
 
     this.api.on(EVENTS.PING, () => this.sdk.emit(EVENTS.PING));
+
+    this.api.on(EVENTS.RESPONSE, (resp) => {
+      this.sdk.emit(EVENTS.RESPONSE, resp);
+      this.sdk.emit(EVENTS.ALL, { type: EVENTS.RESPONSE, resp });
+    });
 
     this.api.on(EVENTS.USER_CHANGE, (user) => {
       this.sdk.emit(EVENTS.USER_CHANGE, user);
