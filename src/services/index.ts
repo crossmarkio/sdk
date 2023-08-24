@@ -92,6 +92,9 @@ class Sdk extends EventEmitter {
   // Get the network of the active connection
   getNetwork = () => this.session.network;
 
+  // Get the network of the active connection
+  getUser = () => this.session.user;
+
   // Attempt to signin to crossmark, pass back request id
   // Listen for response emitted event
   signIn = (hex?: string) =>
