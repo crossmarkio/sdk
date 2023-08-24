@@ -14,14 +14,10 @@ import {
   SignTransaction,
 } from '@typings/crossmark/models/common/tx';
 import {
-  AddressFullResponse,
   BulkSignAndSubmitFullResponse,
   BulkSignFullResponse,
   BulkSubmitFullResponse,
-  IsConnectedFullResponse,
   IsLockedFullResponse,
-  IsOpenFullResponse,
-  NetworkFullResponse,
   SignAndSubmitFullResponse,
   SignFullResponse,
   SignInFullResponse,

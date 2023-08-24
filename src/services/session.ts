@@ -1,5 +1,3 @@
-import EventEmitter, { EventManager } from './events';
-
 import Sdk from '.';
 import { EVENTS } from '@typings/extension';
 import { BasicNetwork } from '@typings/schemas/network';
@@ -12,7 +10,7 @@ const enum State {
   error = 'error',
 }
 
-class Session extends EventEmitter {
+class Session {
   sdk: Sdk;
   user?: BasicUser;
   network?: BasicNetwork;
@@ -25,7 +23,6 @@ class Session extends EventEmitter {
   responses = new Map<string, Response>();
 
   constructor(sdk: Sdk) {
-    super();
     this.sdk = sdk;
     this.sdk.on(EVENTS.PING, this.handlePing);
     this.sdk.on(EVENTS.RESPONSE, this.handleResponse);
