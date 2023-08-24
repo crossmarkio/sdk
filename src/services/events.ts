@@ -2,7 +2,7 @@ import EventEmitter from 'events';
 
 import { EVENTS, CatchAllEvent } from '@typings/extension';
 
-import { Request, Response } from '@typings/crossmark/models';
+import { Response } from '@typings/crossmark/models';
 
 import { BasicNetwork } from '@typings/schemas/network';
 import { BasicUser } from '@typings/schemas/user';

@@ -7,6 +7,7 @@ import {
 import { COMMANDS } from '@typings/extension';
 import { SignInTransaction } from './common/tx';
 import { Status } from './common/status';
+import { BasicNetwork } from '@typings/schemas/network';
 
 export interface SignInRequest extends BaseRequest {
   command: COMMANDS.SIGN;
@@ -22,6 +23,7 @@ interface SignInDataResponse {
     address: string;
     publicKey: string;
     signature?: string;
+    network: BasicNetwork;
     meta: Status;
   };
 }

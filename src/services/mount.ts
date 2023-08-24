@@ -7,18 +7,26 @@ class Mount extends EventEmitter {
   isMounted = false;
   constructor() {
     super();
-    this.loop();
+    this.loop(10000);
   }
 
-  loop = async () => {
-    while (true) {
-      if (typeof window !== 'undefined' && window.crossmark) {
-        this.crossmark = window.crossmark;
-        this.isMounted = true;
+  loop = async (timout: number) =>
+    new Promise(async (resolve, _reject) => {
+      if (this.isMounted) resolve(true);
+
+      setTimeout(() => {
+        resolve(false);
+      }, timout);
+
+      while (true) {
+        if (typeof window !== 'undefined' && window.crossmark) {
+          this.crossmark = window.crossmark;
+          this.isMounted = true;
+          resolve(true);
+        }
+        await sleep(500);
       }
-      await sleep(500);
-    }
-  };
+    }) as Promise<boolean>;
 }
 
 export default Mount;

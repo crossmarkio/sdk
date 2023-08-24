@@ -29,11 +29,13 @@ import {
   VerifyFullResponse,
   VersionFullResponse,
 } from '@typings/crossmark/models';
+import Session from './session';
 
 class Sdk extends EventEmitter {
   [x: string]: unknown;
   mount: Mount;
   api: Api;
+  session: Session;
 
   browser: typeof Browser;
   env: typeof Env;
@@ -53,15 +55,21 @@ class Sdk extends EventEmitter {
     this.api = new Api();
 
     // Mount the event manager service
-    // This is responsible for collectign and passing events to the parent class
+    // This is responsible for collecting and passing events to the parent class
     this.events = new EventManager(this);
+
+    this.session = new Session(this);
   }
 
+  // Establish a connection with Crossmark API. In most cases, this is the not needed.
+  // Note: This will be run automatically on mount, with a timeout or 10 seconds. If any reason,
+  // if there is a need to reconnect, you can use this function.
+  connect = (timeout: number) => this.mount.loop(timeout);
+
   // Determine if crossmark is connected
-  isConnected = () =>
-    this.api.awaitRequest({
-      command: COMMANDS.IS_CONNECTED,
-    }) as Promise<IsConnectedFullResponse>;
+  // Note: This will determine if crossmark is connected and ready for requests.
+  // It does not mean that the user has signed in yet.
+  isConnected = () => this.mount.isMounted;
 
   // Determine if crossmark is actively locked
   isLocked = () =>
@@ -70,10 +78,7 @@ class Sdk extends EventEmitter {
     }) as Promise<IsLockedFullResponse>;
 
   // Determine if an instance of crossmark is open
-  isOpen = () =>
-    this.api.awaitRequest({
-      command: COMMANDS.OPEN,
-    }) as Promise<IsOpenFullResponse>;
+  isOpen = () => this.session.isOpen;
 
   // Determine the current version of crossmark
   version = () =>
@@ -82,16 +87,10 @@ class Sdk extends EventEmitter {
     }) as Promise<VersionFullResponse>;
 
   // Get the address of the wallet that is actively connected
-  getAddress = () =>
-    this.api.awaitRequest({
-      command: COMMANDS.ADDRESS,
-    }) as Promise<AddressFullResponse>;
+  getAddress = () => this.session.address;
 
   // Get the network of the active connection
-  getNetwork = () =>
-    this.api.awaitRequest({
-      command: COMMANDS.NETWORK,
-    }) as Promise<NetworkFullResponse>;
+  getNetwork = () => this.session.network;
 
   // Attempt to signin to crossmark, pass back request id
   // Listen for response emitted event
@@ -264,6 +263,8 @@ class Sdk extends EventEmitter {
         opts,
       },
     }) as Promise<BulkSignAndSubmitFullResponse>;
+
+  getResponse = (id: string) => this.session.responses.get(id);
 }
 
 export default Sdk;
