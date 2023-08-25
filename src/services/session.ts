@@ -54,6 +54,7 @@ class Session {
   };
 
   handleResponse = (resp: Response) => {
+    console.log(resp);
     if ('address' in resp.response.data) {
       this.state = State.active;
       this.address = resp.response.data.address;
