@@ -7,12 +7,12 @@ import Env from './env';
 import EventEmitter, { EventManager } from './events';
 
 // Crossmark Typings
-import { COMMANDS } from '@typings/extension';
-import { SignOpts } from '@typings/crossmark/models/common/base';
+import { COMMANDS } from '../typings/extension/index';
+import { SignOpts } from '../typings/crossmark/models/common/base';
 import {
   AllTransactionRequest,
   SignTransaction,
-} from '@typings/crossmark/models/common/tx';
+} from '../typings/crossmark/models/common/tx';
 import {
   BulkSignAndSubmitFullResponse,
   BulkSignFullResponse,
@@ -24,7 +24,7 @@ import {
   SubmitFullResponse,
   VerifyFullResponse,
   VersionFullResponse,
-} from '@typings/crossmark/models';
+} from '../typings/crossmark/models';
 import Session from './session';
 
 class Sdk extends EventEmitter {

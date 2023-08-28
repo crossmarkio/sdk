@@ -1,4 +1,4 @@
-import Sdk from '.';
+import Sdk from './index';
 import Env from './env';
 
 export const Scheme = {
@@ -34,3 +34,5 @@ export const Scheme = {
     return Object.keys(target).filter((key) => !key.startsWith('_'));
   },
 };
+
+export default Scheme;

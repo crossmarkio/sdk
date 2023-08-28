@@ -1,8 +1,8 @@
-import Sdk from '.';
-import { EVENTS } from '@typings/extension';
-import { BasicNetwork } from '@typings/schemas/network';
-import { BasicUser } from '@typings/schemas/user';
-import { Response } from '@typings/crossmark/models';
+import Sdk from './index';
+import { EVENTS } from '../typings/extension/index';
+import { BasicNetwork } from '../typings/schemas/network';
+import { BasicUser } from '../typings/schemas/user';
+import { Response } from '../typings/crossmark/models';
 
 const enum State {
   active = 'active',

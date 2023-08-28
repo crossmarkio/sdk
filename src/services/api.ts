@@ -1,12 +1,12 @@
 import { v4 as uuid } from 'uuid';
 
-import { TYPES, EVENTS } from '@typings/extension';
+import { TYPES, EVENTS } from '../typings/extension/index';
 
 import EventEmitter from './events';
-import { Request, Response } from '@typings/crossmark/models';
-import { EventMessage } from '@typings/crossmark/events';
-import { NetworkEvent } from '@typings/crossmark/events/network';
-import { UserEvent } from '@typings/crossmark/events/user';
+import { Request, Response } from '../typings/crossmark/models/index';
+import { EventMessage } from '../typings/crossmark/events/index';
+import { NetworkEvent } from '../typings/crossmark/events/network';
+import { UserEvent } from '../typings/crossmark/events/user';
 
 interface ActiveRequest {
   resolve: (value: unknown) => void;

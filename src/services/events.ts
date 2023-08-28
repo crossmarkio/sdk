@@ -1,12 +1,12 @@
 import EventEmitter from 'events';
 
-import { EVENTS, CatchAllEvent } from '@typings/extension';
+import { EVENTS, CatchAllEvent } from '../typings/extension/index';
 
-import { Response } from '@typings/crossmark/models';
+import { Response } from '../typings/crossmark/models/index';
 
-import { BasicNetwork } from '@typings/schemas/network';
-import { BasicUser } from '@typings/schemas/user';
-import Sdk from '.';
+import { BasicNetwork } from '../typings/schemas/network';
+import { BasicUser } from '../typings/schemas/user';
+import Sdk from './index';
 import Mount from './mount';
 import Api from './api';
 

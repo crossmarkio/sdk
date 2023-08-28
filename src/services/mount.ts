@@ -1,5 +1,5 @@
-import type { crossmark } from '@typings/crossmark';
-import { sleep } from '@utils/sleep';
+import type { crossmark } from '../typings/crossmark/index';
+import { sleep } from '../utils/sleep';
 import EventEmitter from './events';
 
 class Mount extends EventEmitter {
