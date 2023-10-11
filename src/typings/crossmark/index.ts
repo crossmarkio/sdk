@@ -1,8 +1,13 @@
 import Api from '@services/api';
+import Sdk from '@services/index';
 
 declare global {
   interface Window {
-    crossmark: Api;
+    xrpl: {
+      isCrossmark?: boolean;
+      crossmark: Api;
+    };
+    crossmark: Sdk;
   }
 }
 

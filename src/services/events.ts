@@ -6,8 +6,8 @@ import { Response } from '../typings/crossmark/models/index';
 
 import { BasicNetwork } from '../typings/schemas/network';
 import { BasicUser } from '../typings/schemas/user';
+
 import Sdk from './index';
-import Mount from './mount';
 import Api from './api';
 
 // events
@@ -37,13 +37,12 @@ class xEventsEmitter extends EventEmitter {
 export class EventManager extends xEventsEmitter {
   sdk: Sdk;
   api: Api;
-  mount: Mount;
 
   constructor(sdk: Sdk) {
     super();
     this.sdk = sdk;
+
     this.api = this.sdk.api;
-    this.mount = this.sdk.mount;
 
     this.api.on(EVENTS.PING, () => this.sdk.emit(EVENTS.PING));
 

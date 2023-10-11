@@ -4,6 +4,9 @@ import Mount from './mount';
 import Browser from './browser';
 import Env from './env';
 
+import * as Types from '../typings/crossmark/models';
+import { EVENTS } from '../typings/extension/index';
+
 import EventEmitter, { EventManager } from './events';
 
 // Crossmark Typings
@@ -29,22 +32,22 @@ import Session from './session';
 
 class Sdk extends EventEmitter {
   [x: string]: unknown;
-  mount: Mount;
+  #mount: Mount;
   api: Api;
-  session: Session;
 
+  session: Session;
   browser: typeof Browser;
   env: typeof Env;
 
-  events: EventManager;
   constructor() {
     super();
 
     this.browser = Browser;
     this.env = Env;
+    this.session = new Session(this);
 
     // Mount crossmark window object if exists
-    this.mount = new Mount();
+    this.#mount = new Mount(this);
 
     // Mount api service which is a clone of crossmark
     // which is mounted to the window object
@@ -52,44 +55,8 @@ class Sdk extends EventEmitter {
 
     // Mount the event manager service
     // This is responsible for collecting and passing events to the parent class
-    this.events = new EventManager(this);
-
-    this.session = new Session(this);
+    new EventManager(this);
   }
-
-  // Establish a connection with Crossmark API. In most cases, this is the not needed.
-  // Note: This will be run automatically on mount, with a timeout or 10 seconds. If any reason,
-  // if there is a need to reconnect, you can use this function.
-  connect = (timeout: number) => this.mount.loop(timeout);
-
-  // Determine if crossmark is connected
-  // Note: This will determine if crossmark is connected and ready for requests.
-  // It does not mean that the user has signed in yet.
-  isConnected = () => this.mount.isMounted;
-
-  // Determine if crossmark is actively locked
-  isLocked = () =>
-    this.api.awaitRequest({
-      command: COMMANDS.IS_LOCKED,
-    }) as Promise<IsLockedFullResponse>;
-
-  // Determine if an instance of crossmark is open
-  isOpen = () => this.session.isOpen;
-
-  // Determine the current version of crossmark
-  version = () =>
-    this.api.awaitRequest({
-      command: COMMANDS.VERSION,
-    }) as Promise<VersionFullResponse>;
-
-  // Get the address of the wallet that is actively connected
-  getAddress = () => this.session.address;
-
-  // Get the network of the active connection
-  getNetwork = () => this.session.network;
-
-  // Get the network of the active connection
-  getUser = () => this.session.user;
 
   // Attempt to signin to crossmark, pass back request id
   // Listen for response emitted event
@@ -112,26 +79,6 @@ class Sdk extends EventEmitter {
         hex,
       },
     }) as Promise<SignInFullResponse>;
-
-  // Attempt to verify wallet ownership, pass back request id
-  // Successful response will return a wallet address
-  verify = (hex: string) =>
-    this.api.request({
-      command: COMMANDS.VERIFY,
-      data: {
-        hex,
-      },
-    });
-
-  // Attempt to verify wallet ownership, await response
-  // Successful response will return a wallet address
-  verifyAndWait = (hex: string) =>
-    this.api.awaitRequest({
-      command: COMMANDS.VERIFY,
-      data: {
-        hex,
-      },
-    }) as Promise<VerifyFullResponse>;
 
   // Attempt to sign a payload, pass back request id
   // Listen for response emitted event
@@ -264,6 +211,74 @@ class Sdk extends EventEmitter {
     }) as Promise<BulkSignAndSubmitFullResponse>;
 
   getResponse = (id: string) => this.session.responses.get(id);
+
+  // Establish a connection with Crossmark API. In most cases, this is the not needed.
+  // Note: This will be run automatically on mount, with a timeout or 10 seconds. If any reason,
+  // if there is a need to reconnect, you can use this function.
+  connect = (timeout: number) => this.#mount.loop(timeout);
+
+  // Determine if crossmark is connected
+  // Note: This will determine if crossmark is connected and ready for requests.
+  // It does not mean that the user has signed in yet.
+  isConnected = () => this.#mount.isCrossmark;
+
+  // Determine if crossmark is actively locked
+  isLocked = () =>
+    this.api.request({
+      command: COMMANDS.IS_LOCKED,
+    });
+
+  // Determine if crossmark is actively locked
+  isLockedAndWait = () =>
+    this.api.awaitRequest({
+      command: COMMANDS.IS_LOCKED,
+    }) as Promise<IsLockedFullResponse>;
+
+  // Determine if an instance of crossmark is open
+  isOpen = () => this.session.isOpen;
+
+  // Determine the current version of crossmark
+  version = () =>
+    this.api.request({
+      command: COMMANDS.VERSION,
+    });
+
+  // Determine the current version of crossmark
+  versionAndWait = () =>
+    this.api.awaitRequest({
+      command: COMMANDS.VERSION,
+    }) as Promise<VersionFullResponse>;
+
+  // Attempt to verify wallet ownership, pass back request id
+  // Successful response will return a wallet address
+  verify = (hex: string) =>
+    this.api.request({
+      command: COMMANDS.VERIFY,
+      data: {
+        hex,
+      },
+    });
+
+  // Attempt to verify wallet ownership, await response
+  // Successful response will return a wallet address
+  verifyAndWait = (hex: string) =>
+    this.api.awaitRequest({
+      command: COMMANDS.VERIFY,
+      data: {
+        hex,
+      },
+    }) as Promise<VerifyFullResponse>;
+
+  // Get the address of the wallet that is actively connected
+  getAddress = () => this.session.address;
+
+  // Get the network of the active connection
+  getNetwork = () => this.session.network;
+
+  // Get the network of the active connection
+  getUser = () => this.session.user;
 }
+
+export { Types, EVENTS };
 
 export default Sdk;

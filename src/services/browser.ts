@@ -8,7 +8,7 @@ class Browser {
   isEdge: boolean = false;
   isChrome: boolean = false;
   isBlink: boolean = false;
-  isArch: boolean = false;
+  isArc: boolean = false;
   constructor() {
     if (typeof window !== 'undefined') {
       // Opera 8.0+
@@ -45,7 +45,7 @@ class Browser {
       this.isBlink = (this.isChrome || this.isOpera) && !!window.CSS;
 
       // Arch Browser
-      this.isArch = getComputedStyle(document.documentElement).getPropertyValue(
+      this.isArc = getComputedStyle(document.documentElement).getPropertyValue(
         '--arc-palette-title'
       );
     }

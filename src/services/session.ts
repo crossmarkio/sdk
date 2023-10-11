@@ -44,12 +44,12 @@ class Session {
     this.address = undefined;
   };
 
-  handleNetworkChange = (network: BasicNetwork) => {
-    this.network = network;
+  handleNetworkChange = (network: { network: BasicNetwork }) => {
+    this.network = network.network;
   };
 
-  handleUserChange = (user: BasicUser) => {
-    this.user = user;
+  handleUserChange = (user: { user: BasicUser }) => {
+    this.user = user.user;
     this.address = undefined;
   };
 
@@ -64,5 +64,9 @@ class Session {
     this.responses.set(resp.request.id, resp);
   };
 }
+
+Session.prototype['user'] = undefined;
+Session.prototype['network'] = undefined;
+Session.prototype['address'] = undefined;
 
 export default Session;

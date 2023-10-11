@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import { uuid } from '../utils/identifiers';
 
 import { TYPES, EVENTS } from '../typings/extension/index';
 
@@ -35,36 +35,35 @@ class Api extends EventEmitter {
   }
 
   #handleMsg = (event: MessageEvent) => {
-    // We only accept messages from ourselves
-    if (!window) return;
-    if (
-      window &&
-      (event.source !== window ||
-        !event.source ||
-        event.origin !== window.location.origin)
-    )
+    try {
+      // We only accept messages from ourselves
+      if (!window) return;
+      if (
+        window &&
+        (event.source !== window ||
+          !event.source ||
+          event.origin !== window.location.origin)
+      )
+        return;
+
+      if (!event.data) return;
+      let type = event.data?.type || undefined;
+      let resp = event.data?.response || undefined;
+
+      if (type === TYPES.UPDATE) return;
+      if (type === TYPES.EVENT && 'type' in event.data)
+        return this.#handleEvent(event.data);
+
+      if (type === 'request') return;
+
+      if (resp && resp.type === TYPES.RESPONSE)
+        this.emit(EVENTS.RESPONSE, event.data as Response);
+
+      if (resp && resp.type === TYPES.RESPONSE && this.active.get(resp.id)) {
+        return this.active.get(resp.id)?.resolve(event.data);
+      }
+    } catch (e) {
       return;
-
-    if (!event.data) return;
-    let type = event.data?.type || undefined;
-    let resp = event.data?.response || undefined;
-
-    if (type === TYPES.UPDATE) return;
-    if (type === TYPES.EVENT && 'type' in event.data)
-      return this.#handleEvent(event.data);
-
-    if (type === 'request') return;
-
-    if ('response' in event.data && resp && resp.type === TYPES.RESPONSE)
-      this.emit(EVENTS.RESPONSE, event.data as Response);
-
-    if (
-      'response' in event.data &&
-      resp &&
-      resp.type === TYPES.RESPONSE &&
-      this.active.get(resp.id)
-    ) {
-      return this.active.get(resp.id)?.resolve(event.data);
     }
   };
 
